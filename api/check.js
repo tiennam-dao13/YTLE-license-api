@@ -1,19 +1,14 @@
 export default function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Only POST method allowed' });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const { key, hwid } = req.body;
 
-  // Danh sách key và HWID hợp lệ (bạn có thể thay đổi)
-  const licenses = {
-    'ABC123-XYZ789': 'UUID123-DISK456',
-    'DEF456-GHI012': 'UUID999-DISK777'
-  };
-
-  if (licenses[key] && licenses[key] === hwid) {
-    res.status(200).json({ status: 'valid' });
+  // ví dụ đơn giản
+  if (key === 'ABC123' && hwid === 'HWID123') {
+    return res.status(200).json({ valid: true });
   } else {
-    res.status(200).json({ status: 'invalid' });
+    return res.status(401).json({ valid: false });
   }
 }
