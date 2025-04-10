@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
   }
 
   // Thay bằng Sheet ID của bạn
-  const sheetUrl = 'https://opensheet.elk.sh/1AbCDEfGhIJkLmNoPQRstUvWxYz1234567890/licenses';
+  const sheetUrl = 'https://opensheet.elk.sh/15YlsJpx-L77J1K3jvffaNwSBXasyxO2KlOFZ6IvWueQ/licenses';
 
   try {
     const response = await fetch(sheetUrl);
