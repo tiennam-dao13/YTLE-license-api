@@ -1,14 +1,27 @@
-export default function handler(req, res) {
+const fetch = require('node-fetch'); // Gọi API từ sheet
+
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ error: 'Only POST allowed' });
   }
 
   const { key, hwid } = req.body;
 
-  // ví dụ đơn giản
-  if (key === 'ABC123' && hwid === 'HWID123') {
-    return res.status(200).json({ valid: true });
-  } else {
-    return res.status(401).json({ valid: false });
+  if (!key || !hwid) {
+    return res.status(400).json({ valid: false, error: 'Missing key or hwid' });
   }
-}
+
+  // Thay bằng Sheet ID của bạn
+  const sheetUrl = 'https://opensheet.elk.sh/1AbCDEfGhIJkLmNoPQRstUvWxYz1234567890/licenses';
+
+  try {
+    const response = await fetch(sheetUrl);
+    const data = await response.json();
+
+    const found = data.find(entry => entry.key === key && entry.hwid === hwid);
+
+    res.status(200).json({ valid: !!found });
+  } catch (err) {
+    res.status(500).json({ valid: false, error: 'Server error' });
+  }
+};
